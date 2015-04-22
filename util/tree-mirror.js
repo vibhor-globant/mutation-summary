@@ -146,6 +146,11 @@ var TreeMirrorClient = (function () {
     TreeMirrorClient.prototype.serializeNode = function (node, recursive) {
         if (node === null)
             return null;
+        
+        if (node.id === "flMenu") {
+            return null;
+        }
+
         var id = this.knownNodes.get(node);
         if (id !== undefined) {
             return { id: id };
@@ -221,6 +226,9 @@ var TreeMirrorClient = (function () {
         var map = new MutationSummary.NodeMap();
         Object.keys(attributeChanged).forEach(function (attrName) {
             attributeChanged[attrName].forEach(function (element) {
+                if (element.id === "flMenu") {
+                    return;
+                }
                 var record = map.get(element);
                 if (!record) {
                     record = _this.serializeNode(element);
